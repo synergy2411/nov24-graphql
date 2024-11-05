@@ -62,4 +62,7 @@ address
   > npm install graphql graphql-yoga
 - Create GraphQL Server with Node HTTP
 - Script for running the App
-  > "start:dev" : "node server.js"
+  > "dev:start" : "node server.js"
+  > npm run dev:start
+- Install nodemon as Dev dependency
+  > npm install nodemon -D
