@@ -1,0 +1,17 @@
+{
+  "name": "01-graphql-basics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev:start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "Sumit K",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^16.9.0",
+    "graphql-yoga": "^5.8.0"
+  }
+}
