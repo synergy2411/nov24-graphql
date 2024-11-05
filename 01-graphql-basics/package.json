@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "graphql": "^16.9.0",
+    "graphql-import-files": "^1.5.2",
     "graphql-yoga": "^5.8.0"
   },
   "devDependencies": {
