@@ -13,24 +13,28 @@ let posts = [
     title: "GraphQL 101",
     body: "Begenning with GraphQL",
     published: false,
+    author: "u003",
   },
   {
     id: "p002",
     title: "Advanced NodeJS",
     body: "For mastering node",
     published: true,
+    author: "u002",
   },
   {
     id: "p003",
     title: "React Refrsh",
     body: "Write less do more",
     published: false,
+    author: "u003",
   },
   {
     id: "p004",
     title: "Anxious Angular",
     body: "The CheatSheet",
     published: true,
+    author: "u001",
   },
 ];
 
@@ -44,6 +48,7 @@ const typeDefs = /* GraphQL */ `
     id: ID!
     name: String!
     age: Int!
+    posts: [Post!]!
   }
   type Post {
     id: ID!
@@ -87,6 +92,11 @@ const resolvers = {
         });
       }
       return posts;
+    },
+  },
+  User: {
+    posts: (parent, args, context, info) => {
+      return posts.filter((post) => post.author === parent.id);
     },
   },
 };
