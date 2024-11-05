@@ -38,7 +38,7 @@ const typeDefs = /* GraphQL */ `
   type Query {
     hello: String!
     users(searchTerm: String): [User!]!
-    posts: [Post!]!
+    posts(order: String): [Post!]!
   }
   type User {
     id: ID!
@@ -62,7 +62,32 @@ const resolvers = {
       }
       return users;
     },
-    posts: () => posts,
+    posts: (parent, args, context, info) => {
+      const sortOrder = args.order;
+      if (sortOrder && sortOrder === "asc") {
+        return posts.sort((a, b) => {
+          if (a.title > b.title) {
+            return 1;
+          } else if (b.title > a.title) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+      }
+      if (sortOrder && sortOrder === "desc") {
+        return posts.sort((a, b) => {
+          if (a.title > b.title) {
+            return -1;
+          } else if (b.title > a.title) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      }
+      return posts;
+    },
   },
 };
 
