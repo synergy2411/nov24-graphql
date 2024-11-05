@@ -46,10 +46,20 @@ address
 
 - Graph : represents relationship b/w entites
 - Scalar Types : holds only single value
-- Schema Definition Language : Syntax for writing Schema
+- Schema Definition Language (SDL) : Syntax for writing Schema
 - Schema : contract b/w client and server
 - Structure vs Behaviour (Resolvers)
 - GraphQL Operations -
   > Query : fetching the data
   > Mutation : Create, Update and Delete
   > Subscription: Realtime updates
+
+# Steps for Creating GraphQL Server
+
+- Create package.json file
+  > npm init -y
+- Install GraphQL dependencies
+  > npm install graphql graphql-yoga
+- Create GraphQL Server with Node HTTP
+- Script for running the App
+  > "start:dev" : "node server.js"
