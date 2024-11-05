@@ -7,22 +7,62 @@ let users = [
   { id: "u003", name: "ross", age: 24 },
 ];
 
+let posts = [
+  {
+    id: "p001",
+    title: "GraphQL 101",
+    body: "Begenning with GraphQL",
+    published: false,
+  },
+  {
+    id: "p002",
+    title: "Advanced NodeJS",
+    body: "For mastering node",
+    published: true,
+  },
+  {
+    id: "p003",
+    title: "React Refrsh",
+    body: "Write less do more",
+    published: false,
+  },
+  {
+    id: "p004",
+    title: "Anxious Angular",
+    body: "The CheatSheet",
+    published: true,
+  },
+];
+
 const typeDefs = /* GraphQL */ `
   type Query {
     hello: String!
-    users: [User!]!
+    users(searchTerm: String): [User!]!
+    posts: [Post!]!
   }
   type User {
     id: ID!
     name: String!
     age: Int!
   }
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
+  }
 `;
 
 const resolvers = {
   Query: {
     hello: () => "World!",
-    users: () => users,
+    users: (parent, args, context, info) => {
+      if (args.searchTerm) {
+        return users.filter((user) => user.name.includes(args.searchTerm));
+      }
+      return users;
+    },
+    posts: () => posts,
   },
 };
 
