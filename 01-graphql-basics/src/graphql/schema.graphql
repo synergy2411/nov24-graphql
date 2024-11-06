@@ -13,6 +13,9 @@ type Mutation {
   createComment(text: String!, postId: ID!, creator: ID!): Comment!
   deleteComment(commentId: ID!): Comment!
 }
+type Subscription {
+  comment: CommentSubscriptionPayload!
+}
 type User {
   id: ID!
   name: String!
@@ -35,6 +38,11 @@ type Comment {
   creator: User!
 }
 
+type CommentSubscriptionPayload {
+  message: MutationType!
+  data: Comment!
+}
+
 input CreatePostInput {
   title: String!
   body: String!
@@ -42,4 +50,9 @@ input CreatePostInput {
 input UpdateUserInput {
   name: String
   age: Int
+}
+
+enum MutationType {
+  CREATED
+  DELETED
 }
