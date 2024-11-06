@@ -3,7 +3,12 @@ import { createYoga, createSchema } from "graphql-yoga";
 import { PrismaClient } from "@prisma/client";
 import { GraphQLError } from "graphql";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+const { sign, verify } = jwt;
 const { hashSync, compareSync } = bcrypt;
+
+const SECRET_KEY = "MY_SUPER_SECRET_KEY";
 
 const prisma = new PrismaClient();
 
@@ -14,6 +19,13 @@ const typeDefs = /* GraphQL */ `
   type Mutation {
     signUp(data: SignUpInput): SignUpPayload!
     signIn(data: SignInInput): SignInPayload!
+    createPost(authorId: ID!, data: CreatePostInput): Post!
+  }
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
   }
   type SignUpPayload {
     message: String!
@@ -31,6 +43,10 @@ const typeDefs = /* GraphQL */ `
   input SignInInput {
     email: String!
     password: String!
+  }
+  input CreatePostInput {
+    title: String!
+    body: String!
   }
   enum Role {
     ADMIN
@@ -74,14 +90,36 @@ const resolvers = {
         if (!foundUser) {
           throw new GraphQLError("Email not found - " + email);
         }
-        console.log(foundUser);
         const isMatched = compareSync(password, foundUser.password);
         if (!isMatched) {
           throw new GraphQLError("Password does not match!");
         }
-        return { token: "TOKEN VALUE" };
+        const token = sign(foundUser, SECRET_KEY);
+        return { token };
       } catch (err) {
         console.log(err);
+        throw new GraphQLError(err);
+      }
+    },
+    createPost: async (parent, args, context, info) => {
+      try {
+        const { title, body } = args.data;
+        const foundUser = await prisma.user.findFirst({
+          where: { id: args.authorId },
+        });
+        if (!foundUser) {
+          throw new GraphQLError("User does not exist - " + args.authorId);
+        }
+        const createdPost = await prisma.post.create({
+          data: {
+            title,
+            body,
+            published: false,
+            authorId: args.authorId,
+          },
+        });
+        return createdPost;
+      } catch (err) {
         throw new GraphQLError(err);
       }
     },

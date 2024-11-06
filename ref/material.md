@@ -97,6 +97,7 @@ Mongo Atlas
 > npm install graphql graphql-yoga
 > npm install nodemon -D
 > npm install bcryptjs
+> npm install jsonwebtoken
 
 # Two Plugins
 
