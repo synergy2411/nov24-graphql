@@ -76,3 +76,25 @@ address
 - MongoDB (Atlas)
 - Prisma (ORM)
 - Authentication
+
+---
+
+Mongo Atlas
+
+- username : testuser
+- password : yLzupoUcA3qSKrje
+- Mongo SRV
+
+## mongodb+srv://testuser:yLzupoUcA3qSKrje@thecluster.e9xsq.mongodb.net/?retryWrites=true&w=majority&appName=TheCluster
+
+# Steps to setup Prisma and Mongo
+
+> npm init -y
+> npm install prisma
+> npx prisma init
+> npx prisma db push
+
+# Two Plugins
+
+- Prettier
+- Prisma
