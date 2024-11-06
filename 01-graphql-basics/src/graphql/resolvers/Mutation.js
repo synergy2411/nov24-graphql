@@ -51,7 +51,7 @@ const Mutation = {
     }
     return db.users[position];
   },
-  createPost: (parent, args, { db }, info) => {
+  createPost: (parent, args, { db, pubsub }, info) => {
     const { title, body } = args.data;
     const position = db.users.findIndex((user) => user.id === args.author);
     if (position === -1) {
@@ -65,9 +65,10 @@ const Mutation = {
       author: args.author,
     };
     db.posts.push(newPost);
+    pubsub.publish("the-post-channel", { message: "CREATED", post: newPost });
     return newPost;
   },
-  deletePost: (parent, args, { db }, info) => {
+  deletePost: (parent, args, { db, pubsub }, info) => {
     const position = db.posts.findIndex((post) => post.id === args.postId);
     if (position === -1) {
       throw new GraphQLError("Unable to delete post for id - " + args.postId);
@@ -76,6 +77,10 @@ const Mutation = {
       (comment) => comment.postId !== args.postId
     );
     const [deletedPost] = db.posts.splice(position, 1);
+    pubsub.publish("the-post-channel", {
+      message: "DELETED",
+      post: deletedPost,
+    });
     return deletedPost;
   },
   createComment: (parent, args, { db, pubsub }, info) => {
@@ -96,7 +101,7 @@ const Mutation = {
     };
     pubsub.publish("the-comment-channel", {
       message: "CREATED",
-      data: newComment,
+      comment: newComment,
     });
     db.comments.push(newComment);
     return newComment;
@@ -113,7 +118,7 @@ const Mutation = {
     const [deletedComment] = db.comments.splice(position, 1);
     pubsub.publish("the-comment-channel", {
       message: "DELETED",
-      data: deletedComment,
+      comment: deletedComment,
     });
     return deletedComment;
   },
