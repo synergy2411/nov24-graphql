@@ -4,6 +4,9 @@ type Query {
   posts(order: String): [Post!]!
   comments: [Comment!]!
 }
+type Mutation {
+  createUser(name: String!, age: Int!): User!
+}
 type User {
   id: ID!
   name: String!

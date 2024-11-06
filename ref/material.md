@@ -66,3 +66,13 @@ address
   > npm run dev:start
 - Install nodemon as Dev dependency
   > npm install nodemon -D
+- Install graphql import files
+  > npm install graphql-import-files
+
+---
+
+- Mutation
+- Subscription
+- MongoDB (Atlas)
+- Prisma (ORM)
+- Authentication
