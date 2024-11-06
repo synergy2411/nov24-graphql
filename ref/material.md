@@ -93,6 +93,7 @@ Mongo Atlas
 > npm install prisma
 > npx prisma init
 > npx prisma db push
+> npm install @prisma/client
 
 # Two Plugins
 
