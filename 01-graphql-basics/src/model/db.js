@@ -38,7 +38,7 @@ let posts = [
 let comments = [
   { id: "c001", text: "I Like it", postId: "p003", creator: "u002" },
   { id: "c002", text: "Luv it", postId: "p001", creator: "u003" },
-  { id: "c003", text: "Not Bad", postId: "p003", creator: "u001" },
+  { id: "c003", text: "Not Bad", postId: "p002", creator: "u001" },
   { id: "c004", text: "Just like that", postId: "p002", creator: "u002" },
 ];
 
@@ -47,3 +47,6 @@ const db = { users, posts, comments };
 export default db;
 
 // p003 - c001, c003
+// u001 - p004, c003,
+// u002 - p002, c001, c004, c003
+// u003 - p001, p003, c002, c001
