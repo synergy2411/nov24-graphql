@@ -28,6 +28,25 @@ const Mutation = {
     db.posts.push(newPost);
     return newPost;
   },
+  createComment: (parent, args, { db }, info) => {
+    const { text, creator, postId } = args;
+    const userPosition = db.users.findIndex((user) => user.id === creator);
+    if (userPosition === -1) {
+      throw new GraphQLError("Unable to find user for id - " + creator);
+    }
+    const postPosition = db.posts.findIndex((post) => post.id === postId);
+    if (postPosition === -1) {
+      throw new GraphQLError("Unable to find post for id - " + postId);
+    }
+    const newComment = {
+      id: v4(),
+      text,
+      postId,
+      creator,
+    };
+    db.comments.push(newComment);
+    return newComment;
+  },
 };
 
 export default Mutation;
