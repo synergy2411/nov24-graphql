@@ -1,5 +1,5 @@
-import { v4 } from "uuid";
 import { GraphQLError } from "graphql";
+import { v4 } from "uuid";
 
 const Mutation = {
   createUser: (parent, args, { db }, info) => {
@@ -46,6 +46,18 @@ const Mutation = {
     };
     db.comments.push(newComment);
     return newComment;
+  },
+  deleteComment: (parent, args, { db }, info) => {
+    const position = db.comments.findIndex(
+      (comment) => comment.id === args.commentId
+    );
+    if (position === -1) {
+      throw new GraphQLError(
+        "Unable to delete comment for id  - " + args.commentId
+      );
+    }
+    const [deletedComment] = db.comments.splice(position, 1);
+    return deletedComment;
   },
 };
 
