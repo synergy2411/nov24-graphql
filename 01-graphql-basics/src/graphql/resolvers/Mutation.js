@@ -1,4 +1,4 @@
-import { graphql, GraphQLError } from "graphql";
+import { GraphQLError } from "graphql";
 import { v4 } from "uuid";
 
 const Mutation = {
@@ -34,6 +34,22 @@ const Mutation = {
 
     const [deletedUser] = db.users.splice(position, 1);
     return deletedUser;
+  },
+  updateUser: (parent, args, { db }, info) => {
+    const { name, age } = args.data;
+    const position = db.users.findIndex((user) => user.id === args.userId);
+    if (position === -1) {
+      throw new GraphQLError(
+        "Unable to update the user for id - " + args.userId
+      );
+    }
+    if (typeof name === "string") {
+      db.users[position].name = name;
+    }
+    if (typeof age === "number") {
+      db.users[position].age = age;
+    }
+    return db.users[position];
   },
   createPost: (parent, args, { db }, info) => {
     const { title, body } = args.data;
