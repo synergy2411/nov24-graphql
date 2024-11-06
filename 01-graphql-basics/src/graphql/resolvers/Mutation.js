@@ -1,4 +1,4 @@
-import { GraphQLError } from "graphql";
+import { graphql, GraphQLError } from "graphql";
 import { v4 } from "uuid";
 
 const Mutation = {
@@ -27,6 +27,17 @@ const Mutation = {
     };
     db.posts.push(newPost);
     return newPost;
+  },
+  deletePost: (parent, args, { db }, info) => {
+    const position = db.posts.findIndex((post) => post.id === args.postId);
+    if (position === -1) {
+      throw new GraphQLError("Unable to delete post for id - " + args.postId);
+    }
+    db.comments = db.comments.filter(
+      (comment) => comment.postId !== args.postId
+    );
+    const [deletedPost] = db.posts.splice(position, 1);
+    return deletedPost;
   },
   createComment: (parent, args, { db }, info) => {
     const { text, creator, postId } = args;
