@@ -94,6 +94,9 @@ Mongo Atlas
 > npx prisma init
 > npx prisma db push
 > npm install @prisma/client
+> npm install graphql graphql-yoga
+> npm install nodemon -D
+> npm install bcryptjs
 
 # Two Plugins
 
