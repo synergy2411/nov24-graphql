@@ -13,9 +13,13 @@ const typeDefs = /* GraphQL */ `
   }
   type Mutation {
     signUp(data: SignUpInput): SignUpPayload!
+    signIn(data: SignInInput): SignInPayload!
   }
   type SignUpPayload {
     message: String!
+  }
+  type SignInPayload {
+    token: String!
   }
   input SignUpInput {
     name: String!
@@ -23,6 +27,10 @@ const typeDefs = /* GraphQL */ `
     email: String!
     password: String!
     role: Role
+  }
+  input SignInInput {
+    email: String!
+    password: String!
   }
   enum Role {
     ADMIN
@@ -50,6 +58,28 @@ const resolvers = {
           },
         });
         return { message: "User signed up successfully" };
+      } catch (err) {
+        console.log(err);
+        throw new GraphQLError(err);
+      }
+    },
+    signIn: async (parent, args, context, info) => {
+      try {
+        const { email, password } = args.data;
+        const foundUser = await prisma.user.findUnique({
+          where: {
+            email,
+          },
+        });
+        if (!foundUser) {
+          throw new GraphQLError("Email not found - " + email);
+        }
+        console.log(foundUser);
+        const isMatched = compareSync(password, foundUser.password);
+        if (!isMatched) {
+          throw new GraphQLError("Password does not match!");
+        }
+        return { token: "TOKEN VALUE" };
       } catch (err) {
         console.log(err);
         throw new GraphQLError(err);
