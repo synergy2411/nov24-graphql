@@ -1,7 +1,9 @@
+import Posts from "./components/posts/posts";
+
 function App() {
   return (
-    <div>
-      <h1>App Works!!</h1>
+    <div className="container">
+      <Posts />
     </div>
   );
 }
