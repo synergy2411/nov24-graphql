@@ -34,7 +34,7 @@ function MainNavigation({ onTabSelected }) {
           )}
           {isLoggedIn && (
             <li className="nav-item">
-              <button className="nav-link" onClick={() => onTabSelected(2)}>
+              <button className="nav-link" onClick={() => onTabSelected(3)}>
                 Add Post{" "}
               </button>
             </li>
