@@ -13,7 +13,7 @@ const Posts = () => {
       <div className="row">
         {data &&
           data.posts.map((post) => (
-            <div className="col-4">
+            <div className="col-4" key={post.id}>
               <div className="card">
                 <div className="card-header">
                   <h4 className="text-center">{post.title.toUpperCase()}</h4>

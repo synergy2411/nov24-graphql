@@ -1,12 +1,23 @@
+import { useState } from "react";
 import LoginForm from "./components/auth/login-form";
 import Posts from "./components/posts/posts";
+import AuthContext from "./context/auth-context";
+import MainNavigation from "./components/header/MainNavigation";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(1);
+
+  const onTabSelected = (tab) => setSelectedTab(tab);
+
   return (
     <div className="container">
-      <h1 className="text-center">My Blog App</h1>
-      <LoginForm />
-      <Posts />
+      <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+        <MainNavigation onTabSelected={onTabSelected} />
+        <h1 className="text-center">My Blog App</h1>
+        {selectedTab === 1 && <Posts />}
+        {selectedTab === 2 && <LoginForm />}
+      </AuthContext.Provider>
     </div>
   );
 }
