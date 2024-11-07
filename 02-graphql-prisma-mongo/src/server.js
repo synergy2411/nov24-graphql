@@ -19,7 +19,7 @@ const typeDefs = /* GraphQL */ `
   type Mutation {
     signUp(data: SignUpInput): SignUpPayload!
     signIn(data: SignInInput): SignInPayload!
-    createPost(authorId: ID!, data: CreatePostInput): Post!
+    createPost(data: CreatePostInput): Post!
   }
   type Post {
     id: ID!
@@ -101,21 +101,19 @@ const resolvers = {
         throw new GraphQLError(err);
       }
     },
-    createPost: async (parent, args, context, info) => {
+    createPost: async (parent, args, { token }, info) => {
+      if (!token) {
+        throw new GraphQLError("Authentication required.");
+      }
       try {
         const { title, body } = args.data;
-        const foundUser = await prisma.user.findFirst({
-          where: { id: args.authorId },
-        });
-        if (!foundUser) {
-          throw new GraphQLError("User does not exist - " + args.authorId);
-        }
+        const { id } = verify(token, SECRET_KEY);
         const createdPost = await prisma.post.create({
           data: {
             title,
             body,
             published: false,
-            authorId: args.authorId,
+            authorId: id,
           },
         });
         return createdPost;
@@ -133,6 +131,17 @@ const schema = createSchema({
 
 const yoga = createYoga({
   schema,
+  context: ({ request }) => {
+    const authHeader = request.headers.get("authorization");
+    let token = null;
+    if (authHeader) {
+      token = authHeader.split(" ")[1]; // "Bearer TOKEN_VALUE"
+    }
+
+    return {
+      token,
+    };
+  },
 });
 
 const server = createServer(yoga);
