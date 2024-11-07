@@ -103,3 +103,17 @@ Mongo Atlas
 
 - Prettier
 - Prisma
+
+---
+
+- Frontend React App
+- Test
+- FAQ
+
+# To create react app
+
+> npx create-react-app frontend
+> cd frontend
+> npm start
+> npm install bootstrap
+> npm install @apollo/client graphql
