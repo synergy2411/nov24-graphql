@@ -117,3 +117,16 @@ Mongo Atlas
 > npm start
 > npm install bootstrap
 > npm install @apollo/client graphql
+
+---
+
+# CRUD Operation for Todo App
+
+- Create
+- Read
+- Update
+- Delete
+
+## Subscription Support for Create and Delete Operation
+
+## Todo Structure - id, label, status, author
