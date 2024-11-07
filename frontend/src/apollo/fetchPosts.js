@@ -7,6 +7,10 @@ const FETCH_POSTS = gql`
       title
       body
       published
+      author {
+        name
+        age
+      }
     }
   }
 `;

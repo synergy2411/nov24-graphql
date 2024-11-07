@@ -21,7 +21,10 @@ const Posts = () => {
                   <h4 className="text-center">{post.title.toUpperCase()}</h4>
                 </div>
                 <div className="card-body">
-                  <p>{post.body}</p>
+                  <blockquote>
+                    {post.body}{" "}
+                    <cite className="float-end">-{post.author.name}</cite>{" "}
+                  </blockquote>
                 </div>
               </div>
             </div>

@@ -12,6 +12,13 @@ type Post {
   title: String!
   body: String!
   published: Boolean!
+  author: User!
+}
+type User {
+  name: String!
+  age: Int!
+  email: String!
+  role: Role!
 }
 type SignUpPayload {
   message: String!
