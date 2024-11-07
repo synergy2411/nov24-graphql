@@ -2,9 +2,11 @@ import { useQuery } from "@apollo/client";
 import FETCH_POSTS from "../../apollo/fetchPosts";
 
 const Posts = () => {
-  const { data, loading, error } = useQuery(FETCH_POSTS);
+  const { data, loading, error, refetch } = useQuery(FETCH_POSTS);
   if (error) return <h2>Something went wrong</h2>;
   if (loading) return <h2>Loading...</h2>;
+
+  refetch();
 
   return (
     <>
